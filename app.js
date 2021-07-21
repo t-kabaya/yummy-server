@@ -4,10 +4,10 @@ const pg = require('pg')
 const { Client } = pg
 pg.defaults.ssl = true // sslで接続
 
-const app = express()
+const server = express()
 
 // queryを投げるだけなので、全てgetで大丈夫かな？
-app.get('/', async (req, res) => {
+server.get('/', async (req, res) => {
 	const client = await new Client({
 		host: 'ec2-35-171-250-21.compute-1.amazonaws.com',
 		user: 'yrukxmdgnsxqlw',
@@ -42,4 +42,5 @@ app.get('/', async (req, res) => {
 })
 
 const port = 8080
-app.listen(port)
+server.listen(port)
+server.setTimeout(500000) // タイムアウトを5秒に設定
