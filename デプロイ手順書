@@ -1,4 +1,4 @@
 1. $ yarn
-2. ルート直下で gcloud deploy
+2. ルート直下で gcloud app deploy
 3. プロジェクトを選択する。（ステージングはyummy-stg, 本番はyummy）
 以上
