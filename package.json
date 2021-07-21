@@ -3,8 +3,19 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha --exit test/*.test.js"
+  },
   "dependencies": {
-    "express": "^4.17.1",
-    "pg": "^8.6.0"
+    "pg": "^8.6.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "mocha": "^9.0.0",
+    "supertest": "^6.0.0"
   }
 }
