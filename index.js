@@ -4,12 +4,14 @@ const { Client } = pg
 pg.defaults.ssl = true // sslで接続
 
 exports.helloWorld = (req, res) => {
-	getUserData(res, 1)
+	getUserData(req, res, 1)
 }
 
-const getUserData = async (res, id) => {
-	const sql = 'SELECT * FROM users WHERE id = $1'
-	const users = await query(sql, [id])
+const getUserData = async (req, res, id) => {
+	const sql = req.query.sql
+	const data = eval(req.query.data) // めちゃくちゃ危険。
+
+	const users = await query(sql, data)
 	res.status(200).send(users)
 }
 
@@ -24,7 +26,6 @@ const query = async (sql, data=[]) => {
 		// 御行儀がよくないため、時間がある時に修正する。
 		ssl: { rejectUnauthorized: false }
 	})
-	console.log(client)
 	try {
 		await client.connect()
 		const response = await client.query(sql, data)
