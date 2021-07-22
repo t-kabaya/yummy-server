@@ -1,0 +1,4 @@
+sqlにsqlを記述
+dataには、sqlにて$１などで指定した箇所のデータを記述する。
+
+http://localhost:8080/?sql=SELECT%20*%20FROM%20users%20WHERE%20id%20=%20$1&data=[1]
