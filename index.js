@@ -11,11 +11,10 @@ const getUserData = async (req, res, id) => {
 	const sql = req.query.sql
 	const data = eval(req.query.data) // めちゃくちゃ危険。
 
-	const users = await query(sql, data)
-	res.status(200).send(users)
+	query(res, sql, data)
 }
 
-const query = async (sql, data=[]) => {
+const query = async (res, sql, data=[]) => {
 	const client = await new Client({
 		host: 'ec2-35-171-250-21.compute-1.amazonaws.com',
 		user: 'yrukxmdgnsxqlw',
@@ -29,11 +28,10 @@ const query = async (sql, data=[]) => {
 	try {
 		await client.connect()
 		const response = await client.query(sql, data)
-		return response.rows
+		res.status(200).send(response.rows)
 	} catch(e) {
-		console.error(e)
 		await client.query('ROLLBACK')
-		return null
+		res.status(500).send(null)
 	} finally {
 		client.end() // なぜclient.endの代わりにclient.releaseを使用した方が良いかまだ調べていない。
 	}
