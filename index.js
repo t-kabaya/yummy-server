@@ -3,17 +3,9 @@ const pg = require('pg')
 const { Client } = pg
 pg.defaults.ssl = true // sslで接続
 
-exports.helloWorld = (req, res) => {
-	getUserData(req, res, 1)
-}
-
-const getUserData = async (req, res, id) => {
+exports.execQuery = async (req, res) => {
 	const sql = req.query.sql
 	const data = JSON.parse(req.query.data) // やや危険な実装。
-	query(res, sql, data)
-}
-
-const query = async (res, sql, data=[]) => {
 	const client = await new Client({
 		host: 'ec2-35-171-250-21.compute-1.amazonaws.com',
 		user: 'yrukxmdgnsxqlw',
