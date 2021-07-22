@@ -9,6 +9,7 @@
     "pg": "^8.6.0"
   },
   "scripts": {
-    "start": "npx functions-framework --target=execQuery [--signature-type=http]"
+    "start": "npx functions-framework --target=execQuery [--signature-type=http]",
+    "deploy": "gcloud functions deploy execQuery --runtime nodejs14 --trigger-http --allow-unauthenticated"
   }
 }

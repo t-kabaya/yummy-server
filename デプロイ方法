@@ -1,0 +1,4 @@
+yarn deploy
+
+その後以下に従い、コンソールから未認証ユーザーからのアクセスを許可に設定。
+https://stackoverflow.com/questions/47511677/firebase-cloud-function-your-client-does-not-have-permission-to-get-url-200-fr
