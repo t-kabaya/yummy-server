@@ -9,8 +9,7 @@ exports.helloWorld = (req, res) => {
 
 const getUserData = async (req, res, id) => {
 	const sql = req.query.sql
-	const data = eval(req.query.data) // めちゃくちゃ危険。
-
+	const data = JSON.parse(req.query.data) // やや危険な実装。
 	query(res, sql, data)
 }
 
