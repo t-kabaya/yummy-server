@@ -9,7 +9,11 @@
     "pg": "^8.6.0"
   },
   "scripts": {
-    "start": "npx functions-framework --target=execQuery [--signature-type=http]",
-    "deploy": "gcloud functions deploy execQuery --runtime nodejs14 --trigger-http --allow-unauthenticated"
+    "dev": "npm run decyptStg && npx functions-framework --target=execQuery [--signature-type=http]",
+    "deploy": "npm run encyptProduction && gcloud functions deploy execQuery --runtime nodejs14 --trigger-http --allow-unauthenticated",
+    "encyptStg": "openssl enc -aes-256-cbc -e -in env.js -out .envStg -pass pass:kby",
+    "decyptStg": "rm env.js; openssl enc -aes-256-cbc -d -in .envStg -out env.js -pass pass:kby",
+    "encyptProduction": "openssl enc -aes-256-cbc -e -in env.js -out .envProduction -pass pass:kby",
+    "decyptProduction": "rm env.js; openssl enc -aes-256-cbc -d -in .envProduction -out env.js -pass pass:kby"
   }
 }

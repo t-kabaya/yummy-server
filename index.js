@@ -1,4 +1,5 @@
 const pg = require('pg')
+const env = require('./env')
 
 const { Client } = pg
 pg.defaults.ssl = true // sslで接続
@@ -7,11 +8,11 @@ exports.execQuery = async (req, res) => {
 	const sql = req.query.sql
 	const data = JSON.parse(req.query.data) // やや危険な実装。
 	const client = await new Client({
-		host: 'ec2-35-171-250-21.compute-1.amazonaws.com',
-		user: 'yrukxmdgnsxqlw',
-		database: 'd2uuqa38bme5q9',
-		password: '4f08f2cb878b021a31494040159fb41732d32b652268604b646f480fdc6de57b',
-		port: 5432,
+		host: env.host,
+		user: env.user,
+		database: env.database,
+		password: env.password,
+		port: env.port,
 		// ローカルからherokuのpostgrelqlに接続するため自己証明書を有効にしている。
 		// 御行儀がよくないため、時間がある時に修正する。
 		ssl: { rejectUnauthorized: false }

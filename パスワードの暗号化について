@@ -1,0 +1,19 @@
+github上にDBのパスワードをプッシュするとBOTの巡回によりデータが盗まれる可能性が高い。
+そのため、パスワードなどはopensslを使用し、一旦暗号化してからgithub上にプッシュする。
+
+以下のスクリプトで暗号化を行う
+- ステージング
+openssl enc -aes-256-cbc -d -in env.js -out .envStg -pass pass:kby
+- 本番
+openssl enc -aes-256-cbc -d -in env.js -out envProduction -pass pass:kby
+
+以下のスクリプトで複合を行う
+- ステージング
+rm env.js
+openssl enc -aes-256-cbc -d -in .envStg -out env.js -pass pass:kby
+- 本番
+rm env.js
+openssl enc -aes-256-cbc -d -in .envProduction -out env.js -pass pass:kby
+
+# 参考
+https://www.karakaram.com/file-encryption-using-openssl/
