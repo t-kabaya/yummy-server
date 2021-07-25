@@ -25,6 +25,6 @@ exports.execQuery = async (req, res) => {
 		await client.query('ROLLBACK')
 		res.status(500).send(null)
 	} finally {
-		client.end() // なぜclient.endの代わりにclient.releaseを使用した方が良いかまだ調べていない。
+		client.end()
 	}
 }
