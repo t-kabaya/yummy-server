@@ -1,5 +1,6 @@
 const pg = require('pg')
 const env = require('./env')
+const { query } = require('./execQuery')
 
 const { Client } = pg
 pg.defaults.ssl = true // sslで接続
@@ -28,3 +29,26 @@ exports.execQuery = async (req, res) => {
 		client.end()
 	}
 }
+
+exports.maybeInitUser = async(req, res) => {
+	try {
+		const uid = req.query.uid
+		if (uid === undefined) {
+			throw new Error()
+		}
+		const userName = 'No Name'
+		const icon = ''
+		const selectSql = 'SELECT * FROM users SET WHERE uid = $1;'
+		const user = await query(selectSql, [uid])
+
+		if (user.length === 0) { // 同じuidのユーザーが存在しなければユーザーを初期化する。
+			const initUserSql = 'INSERT INTO users (uid, user_name, icon) VALUES ($1, $2, $3) RETURNING *;'
+			const initializedUser = await query(initUserSql, [uid, userName, icon])
+			res.status(200).send(initializedUser.rows)
+		}
+	} catch {
+		internalError(res)
+	}
+}
+
+const internalError = (res) => res.status(500).send(null)

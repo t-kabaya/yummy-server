@@ -10,7 +10,9 @@
   },
   "scripts": {
     "dev": "npm run decyptStg && npx functions-framework --target=execQuery [--signature-type=http]",
-    "deploy": "npm run encyptProduction && gcloud functions deploy execQuery --runtime nodejs14 --trigger-http --allow-unauthenticated",
+    "devMaybeInitUser": "npm run decyptStg && npx functions-framework --target=maybeInitUser [--signature-type=http]",
+    "deployStgMaybeInitUser": "npm run decyptStg && gcloud functions deploy MaybeInitUser --runtime nodejs14 --trigger-http --allow-unauthenticated",
+    "deploy": "npm run decyptProduction && gcloud functions deploy execQuery --runtime nodejs14 --trigger-http",
     "encyptStg": "openssl enc -aes-256-cbc -e -in env.js -out .envStg -pass pass:kby",
     "decyptStg": "rm env.js; openssl enc -aes-256-cbc -d -in .envStg -out env.js -pass pass:kby",
     "encyptProduction": "openssl enc -aes-256-cbc -e -in env.js -out .envProduction -pass pass:kby",
